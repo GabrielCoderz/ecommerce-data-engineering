@@ -1,9 +1,9 @@
 resource "google_compute_instance" "pipeline-engine" {
   name         = "pipeline-engine"
-  machine_type = "e2-micro"
+  machine_type = "e2-small"
   zone         = "us-central1-a"
 
-  tags = ["ecommerce", "data-engineering"]
+  tags = ["allow-mage-ai"]
 
   boot_disk {
     initialize_params {
@@ -27,9 +27,22 @@ resource "google_compute_disk" "default" {
   type  = "pd-ssd"
   zone  = "us-central1-a"
   image = "debian-11-bullseye-v20220719"
-  size = 0
+  size = 10
   labels = {
     environment = "dev"
   }
-  physical_block_size_bytes = 4096
+
+}
+
+resource "google_compute_firewall" "allow_mage_ai" {
+  name    = "allow-mage-ai"
+  network = "default"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["6789"]
+  }
+
+  source_ranges = ["201.4.138.65"]
+  target_tags   = ["allow-mage-ai"]
 }

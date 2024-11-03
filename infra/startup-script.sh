@@ -18,8 +18,9 @@ sudo usermod -aG docker ${USER}
 
 sudo systemctl enable docker
 
-# Copy git repository and Up mage_ai
-git clone https://github.com/GabrielCoderz/ecommerce-data-engineering.git /home/${USER}/ecommerce-data-engineering
-cd /home/${USER}/ecommerce-data-engineering
+# git requires $HOME and it's not set during the startup script.
+export HOME=/root
 
-sudo docker-compose up -d mage_ai
+# Copy git repository and Up mage_ai
+git clone https://github.com/GabrielCoderz/ecommerce-data-engineering.git /opt/app
+sudo docker compose -f /opt/app/docker-compose.yml up -d mage
