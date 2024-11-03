@@ -12,6 +12,20 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+  
+  mage:
+    image: mageai/mageai:latest
+    command: mage start ecommerce_project_mage
+    env_file:
+      - .env
+    environment:
+      USER_CODE_PATH: /home/src/ecommerce_project_mage
+      ENV: ${ENV}
+    ports:
+      - 6789:6789
+    volumes:
+      - .:/home/src/
+    restart: on-failure:5
 
 volumes:
   postgres_data:
