@@ -1,0 +1,6 @@
+.infracost
+.terraform*
+terraform.tfstate*
+
+key.json
+venv
